@@ -1,5 +1,6 @@
 package com.playtomic.tests.wallet.domain;
 
+import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,7 @@ public class Wallet {
   private Long id;
 
   @NotNull
-  private Double balance;
+  private BigDecimal balance;
 
   public Long getId() {
     return id;
@@ -24,11 +25,11 @@ public class Wallet {
     this.id = id;
   }
 
-  public Double getBalance() {
+  public BigDecimal getBalance() {
     return balance;
   }
 
-  public void setBalance(Double balance) {
+  public void setBalance(BigDecimal balance) {
     this.balance = balance;
   }
 }

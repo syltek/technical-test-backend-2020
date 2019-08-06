@@ -4,6 +4,7 @@ import com.playtomic.tests.wallet.domain.Wallet;
 import com.playtomic.tests.wallet.domain.dto.Operation;
 import com.playtomic.tests.wallet.domain.dto.Transaction;
 import com.playtomic.tests.wallet.repository.WalletRepository;
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.function.BinaryOperator;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 public class WalletService {
 
   private final WalletRepository walletRepository;
-
 
   public WalletService(final WalletRepository walletRepository) {
     this.walletRepository = walletRepository;
@@ -26,22 +26,18 @@ public class WalletService {
           "Wallet with id: " + transaction.getWalletId() + " was not found");
     }
     final Wallet wallet = walletOptional.get();
-    final Double balance = wallet.getBalance();
-    final Double amount = transaction.getAmount();
-    final BinaryOperator<Double> operation = computeOperation(transaction.getOperation());
-    final Double resultBalance = operation.apply(balance, amount);
+    final BigDecimal balance = wallet.getBalance();
+    final BigDecimal amount = transaction.getAmount();
+    final BinaryOperator<BigDecimal> operation = computeOperation(transaction.getOperation());
+    final BigDecimal resultBalance = operation.apply(balance, amount);
     wallet.setBalance(resultBalance);
   }
 
-  private static BinaryOperator<Double> subtractFromBalance = (balance, amount) -> Double
-      .sum(balance, amount * -1);
-  private static BinaryOperator<Double> addToBalance = Double::sum;
-
-  private static BinaryOperator<Double> computeOperation(final Operation operation) {
+  private static BinaryOperator<BigDecimal> computeOperation(final Operation operation) {
     if (operation.equals(Operation.PAYMENT)) {
-      return subtractFromBalance;
+      return BigDecimal::subtract;
     } else {
-      return addToBalance;
+      return BigDecimal::add;
     }
   }
 }

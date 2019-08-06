@@ -1,5 +1,6 @@
 package com.playtomic.tests.wallet.domain.dto;
 
+import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
 
 public class Transaction {
@@ -8,7 +9,7 @@ public class Transaction {
   private Long walletId;
 
   @NotNull
-  private Double amount;
+  private BigDecimal amount;
 
   private Operation operation;
 
@@ -20,14 +21,14 @@ public class Transaction {
     return operation;
   }
 
-  public Double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
   public Transaction() {
   }
 
-  public Transaction(Long walletId, Double amount,
+  public Transaction(Long walletId, BigDecimal amount,
       Operation operation) {
     this.walletId = walletId;
     this.amount = amount;
