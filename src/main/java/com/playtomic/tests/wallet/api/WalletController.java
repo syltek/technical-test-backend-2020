@@ -3,6 +3,7 @@ package com.playtomic.tests.wallet.api;
 import com.playtomic.tests.wallet.domain.Wallet;
 import com.playtomic.tests.wallet.domain.dto.Transaction;
 import com.playtomic.tests.wallet.repository.WalletRepository;
+import com.playtomic.tests.wallet.service.PaymentServiceException;
 import com.playtomic.tests.wallet.service.WalletService;
 import com.playtomic.tests.wallet.service.WalletServiceException;
 import java.util.Optional;
@@ -55,6 +56,8 @@ public class WalletController {
             if (e.getCode() == 404) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
+        } catch (PaymentServiceException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.ok().build();
     }
