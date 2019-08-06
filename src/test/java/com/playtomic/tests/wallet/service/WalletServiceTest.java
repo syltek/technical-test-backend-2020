@@ -17,6 +17,7 @@ import com.playtomic.tests.wallet.repository.WalletRepository;
 import java.math.BigDecimal;
 import java.util.Optional;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 public class WalletServiceTest {
 
@@ -31,10 +32,10 @@ public class WalletServiceTest {
   @Test
   public void updateWalletBalanceNoWallet() throws PaymentServiceException {
     when(this.walletRepository.findById(WALLET_ID)).thenReturn(Optional.empty());
-    final Transaction transaction = new Transaction(WALLET_ID, AMOUNT, Operation.PAYMENT);
+    final Transaction transaction = new Transaction(AMOUNT, Operation.PAYMENT);
     WalletServiceException exception = null;
     try {
-      this.walletService.updateWalletBalance(transaction);
+      this.walletService.updateWalletBalance(WALLET_ID, transaction);
     } catch (WalletServiceException e) {
       exception = e;
     }
@@ -50,11 +51,13 @@ public class WalletServiceTest {
     wallet.setBalance(BALANCE);
     wallet.setId(WALLET_ID);
     when(this.walletRepository.findById(WALLET_ID)).thenReturn(Optional.of(wallet));
-    final Transaction transaction = new Transaction(WALLET_ID, AMOUNT,
+    final Transaction transaction = new Transaction(AMOUNT,
         Operation.PAYMENT);
-    this.walletService.updateWalletBalance(transaction);
+    this.walletService.updateWalletBalance(WALLET_ID, transaction);
     verify(this.paymentService, never()).charge(any(BigDecimal.class));
-    assertEquals(wallet.getBalance(), BigDecimal.valueOf(-50.0));
+    final ArgumentCaptor<Wallet> captor = ArgumentCaptor.forClass(Wallet.class);
+    verify(this.walletRepository, times(1)).save(captor.capture());
+    assertEquals(captor.getValue().getBalance(), BigDecimal.valueOf(-50.0));
   }
 
   @Test
@@ -63,10 +66,12 @@ public class WalletServiceTest {
     wallet.setBalance(BALANCE);
     wallet.setId(WALLET_ID);
     when(this.walletRepository.findById(WALLET_ID)).thenReturn(Optional.of(wallet));
-    final Transaction transaction = new Transaction(WALLET_ID, AMOUNT, Operation.REFUND);
-    this.walletService.updateWalletBalance(transaction);
+    final Transaction transaction = new Transaction(AMOUNT, Operation.REFUND);
+    this.walletService.updateWalletBalance(WALLET_ID, transaction);
     verify(this.paymentService, never()).charge(any(BigDecimal.class));
-    assertEquals(wallet.getBalance(), BigDecimal.valueOf(150.0));
+    final ArgumentCaptor<Wallet> captor = ArgumentCaptor.forClass(Wallet.class);
+    verify(this.walletRepository, times(1)).save(captor.capture());
+    assertEquals(captor.getValue().getBalance(), BigDecimal.valueOf(150.0));
   }
 
   @Test
@@ -75,10 +80,12 @@ public class WalletServiceTest {
     wallet.setBalance(BALANCE);
     wallet.setId(WALLET_ID);
     when(this.walletRepository.findById(WALLET_ID)).thenReturn(Optional.of(wallet));
-    final Transaction transaction = new Transaction(WALLET_ID, AMOUNT, Operation.RECHARGE);
-    this.walletService.updateWalletBalance(transaction);
+    final Transaction transaction = new Transaction(AMOUNT, Operation.RECHARGE);
+    this.walletService.updateWalletBalance(WALLET_ID, transaction);
     verify(this.paymentService, times(1)).charge(eq(AMOUNT));
-    assertEquals(wallet.getBalance(), BigDecimal.valueOf(150.0));
+    final ArgumentCaptor<Wallet> captor = ArgumentCaptor.forClass(Wallet.class);
+    verify(this.walletRepository, times(1)).save(captor.capture());
+    assertEquals(captor.getValue().getBalance(), BigDecimal.valueOf(150.0));
   }
 
   @Test
@@ -88,10 +95,10 @@ public class WalletServiceTest {
     wallet.setId(WALLET_ID);
     when(this.walletRepository.findById(WALLET_ID)).thenReturn(Optional.of(wallet));
     doThrow(new PaymentServiceException()).when(this.paymentService).charge(eq(AMOUNT));
-    final Transaction transaction = new Transaction(WALLET_ID, AMOUNT, Operation.RECHARGE);
+    final Transaction transaction = new Transaction(AMOUNT, Operation.RECHARGE);
     PaymentServiceException exception = null;
     try {
-      this.walletService.updateWalletBalance(transaction);
+      this.walletService.updateWalletBalance(WALLET_ID, transaction);
     } catch (PaymentServiceException e) {
       exception = e;
     }

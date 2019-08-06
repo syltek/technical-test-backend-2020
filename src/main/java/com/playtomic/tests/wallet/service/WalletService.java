@@ -25,10 +25,10 @@ public class WalletService {
     this.paymentService = paymentService;
   }
 
-  public void updateWalletBalance(final Transaction transaction) throws PaymentServiceException {
+  public void updateWalletBalance(final Long walletId, final Transaction transaction)
+      throws PaymentServiceException {
     final BigDecimal amount = transaction.getAmount();
     final Operation operationValue = transaction.getOperation();
-    final Long walletId = transaction.getWalletId();
     logger.debug(
         "Updating balance as a " + operationValue + " for the amount of " + amount);
     final Optional<Wallet> walletOptional = this.walletRepository
@@ -50,6 +50,7 @@ public class WalletService {
     final BinaryOperator<BigDecimal> operation = computeOperation(operationValue);
     final BigDecimal resultBalance = operation.apply(balance, amount);
     wallet.setBalance(resultBalance);
+    this.walletRepository.save(wallet);
   }
 
   private static BinaryOperator<BigDecimal> computeOperation(final Operation operation) {

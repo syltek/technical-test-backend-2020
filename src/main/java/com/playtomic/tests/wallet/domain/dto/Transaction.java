@@ -6,16 +6,9 @@ import javax.validation.constraints.NotNull;
 public class Transaction {
 
   @NotNull
-  private Long walletId;
-
-  @NotNull
   private BigDecimal amount;
 
   private Operation operation;
-
-  public Long getWalletId() {
-    return walletId;
-  }
 
   public Operation getOperation() {
     return operation;
@@ -28,9 +21,8 @@ public class Transaction {
   public Transaction() {
   }
 
-  public Transaction(Long walletId, BigDecimal amount,
+  public Transaction(BigDecimal amount,
       Operation operation) {
-    this.walletId = walletId;
     this.amount = amount;
     this.operation = operation;
   }

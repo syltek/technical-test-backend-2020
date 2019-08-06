@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,9 +37,9 @@ public class WalletController {
         log.info("Logging from /");
     }
 
-    @GetMapping("/wallet")
+    @GetMapping("/wallet/{id}")
     @ResponseBody
-    private ResponseEntity<Wallet> getWalletById(@RequestParam final Long id) {
+    private ResponseEntity<Wallet> getWalletById(@PathVariable final Long id) {
         final Optional<Wallet> walletOptional = this.walletRepository.findById(id);
         if (walletOptional.isPresent()) {
             return ResponseEntity.ok(walletOptional.get());
@@ -47,11 +48,11 @@ public class WalletController {
         }
     }
 
-    @PutMapping("/wallet")
+    @PutMapping("/wallet/{id}")
     @ResponseBody
-    private ResponseEntity updateWalletBalance(@RequestBody final Transaction transaction) {
+    private ResponseEntity updateWalletBalance(@PathVariable final Long id, @RequestBody final Transaction transaction) {
         try {
-            this.walletService.updateWalletBalance(transaction);
+            this.walletService.updateWalletBalance(id, transaction);
         } catch (WalletServiceException e) {
             if (e.getCode() == 404) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
