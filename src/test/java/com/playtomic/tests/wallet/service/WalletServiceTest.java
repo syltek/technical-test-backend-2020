@@ -49,7 +49,6 @@ public class WalletServiceTest {
   public void updateWalletBalancePayment() throws PaymentServiceException {
     final Wallet wallet = new Wallet();
     wallet.setBalance(BALANCE);
-    wallet.setId(WALLET_ID);
     when(this.walletRepository.findById(WALLET_ID)).thenReturn(Optional.of(wallet));
     final Transaction transaction = new Transaction(AMOUNT,
         Operation.PAYMENT);
@@ -64,7 +63,6 @@ public class WalletServiceTest {
   public void updateWalletBalanceRefund() throws PaymentServiceException {
     final Wallet wallet = new Wallet();
     wallet.setBalance(BALANCE);
-    wallet.setId(WALLET_ID);
     when(this.walletRepository.findById(WALLET_ID)).thenReturn(Optional.of(wallet));
     final Transaction transaction = new Transaction(AMOUNT, Operation.REFUND);
     this.walletService.updateWalletBalance(WALLET_ID, transaction);
@@ -78,7 +76,6 @@ public class WalletServiceTest {
   public void updateWalletBalanceRecharge() throws PaymentServiceException {
     final Wallet wallet = new Wallet();
     wallet.setBalance(BALANCE);
-    wallet.setId(WALLET_ID);
     when(this.walletRepository.findById(WALLET_ID)).thenReturn(Optional.of(wallet));
     final Transaction transaction = new Transaction(AMOUNT, Operation.RECHARGE);
     this.walletService.updateWalletBalance(WALLET_ID, transaction);
@@ -92,7 +89,6 @@ public class WalletServiceTest {
   public void updateWalletBalanceRechargeThrowsPaymentException() throws PaymentServiceException {
     final Wallet wallet = new Wallet();
     wallet.setBalance(BALANCE);
-    wallet.setId(WALLET_ID);
     when(this.walletRepository.findById(WALLET_ID)).thenReturn(Optional.of(wallet));
     doThrow(new PaymentServiceException()).when(this.paymentService).charge(eq(AMOUNT));
     final Transaction transaction = new Transaction(AMOUNT, Operation.RECHARGE);

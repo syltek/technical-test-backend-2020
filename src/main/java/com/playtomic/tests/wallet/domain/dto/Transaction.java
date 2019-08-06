@@ -8,6 +8,7 @@ public class Transaction {
   @NotNull
   private BigDecimal amount;
 
+  @NotNull
   private Operation operation;
 
   public Operation getOperation() {
@@ -18,6 +19,7 @@ public class Transaction {
     return amount;
   }
 
+  @SuppressWarnings("unused") // needed for jackson deserialization
   public Transaction() {
   }
 
