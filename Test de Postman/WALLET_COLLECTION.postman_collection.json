@@ -1,0 +1,385 @@
+{
+	"info": {
+		"_postman_id": "693b2aa9-ca7a-46fb-8d23-eaa59ed71e30",
+		"name": "WALLET_COLLECTION",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Charge wallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\": \"50\"}"
+				},
+				"url": {
+					"raw": "{{host}}/wallets/1/charge",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"1",
+						"charge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Charge wallet - not found",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\": \"50\"}"
+				},
+				"url": {
+					"raw": "{{host}}/wallets/9/charge",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"9",
+						"charge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Charge wallet - error min charge",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\": \"9\"}"
+				},
+				"url": {
+					"raw": "{{host}}/wallets/1/charge",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"1",
+						"charge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refund wallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\": \"50\"}"
+				},
+				"url": {
+					"raw": "{{host}}/wallets/2/refund",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"2",
+						"refund"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refund wallet - not found",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\": \"50\"}"
+				},
+				"url": {
+					"raw": "{{host}}/wallets/9/refund",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"9",
+						"refund"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment wallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\": \"50\"}"
+				},
+				"url": {
+					"raw": "{{host}}/wallets/1/payment",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"1",
+						"payment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment wallet - not found",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\": \"100\"}"
+				},
+				"url": {
+					"raw": "{{host}}/wallets/9/payment",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"9",
+						"payment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment wallet - no credit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"amount\": \"10000\"}"
+				},
+				"url": {
+					"raw": "{{host}}/wallets/2/payment",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"2",
+						"payment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consult wallet - not found",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/wallets/6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consult wallet",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/wallets/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consult wallet - not found",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/wallets/4",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consult all wallets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/wallets/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create wallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"idWallet\": 3,\r\n   \"name\": \"Cartera_3\",\r\n   \"balance\": 100.00\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/wallets",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update wallet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n   \"idWallet\": 2,\r\n   \"name\": \"Cartera de Jose\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/wallets",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"wallets"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "185a573a-488f-4eda-8b3b-a54248c57130",
+			"key": "host",
+			"value": "http://localhost:8090/wallets",
+			"type": "string"
+		}
+	]
+}
