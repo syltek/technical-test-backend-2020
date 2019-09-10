@@ -53,7 +53,8 @@ public class WalletController {
 	@PostMapping("/wallets")
 	@ResponseWrapper
 	private ResponseEntity<WalletInfoReponse> newUpdateWallet(@RequestBody Wallet wallet) {
-
+		
+		
 		Wallet wConsult = walletService.findById(wallet.getIdWallet());
 		WalletInfoReponse wInfoResponse = null;
 		Wallet wCreatedUpdated = null;
@@ -61,12 +62,16 @@ public class WalletController {
 		if (wConsult == null) {
 			
 			wCreatedUpdated = walletService.save(wallet);
-			wInfoResponse = new WalletInfoReponse(wCreatedUpdated, Constants.WALLET_CREATED, "The wallet has been created");	
+			wInfoResponse = new WalletInfoReponse(wCreatedUpdated, Constants.WALLET_CREATED, "The wallet has been created");
+			
+			log.info("Se crea wallet con id:" + wInfoResponse.getWallet().getIdWallet());
 		}else {
 
 			wallet = walletService.attControl(wallet,wConsult);
 			wCreatedUpdated = walletService.save(wallet);
-			wInfoResponse = new WalletInfoReponse(wCreatedUpdated, Constants.WALLET_UPDATED, "The wallet has been updated");	
+			wInfoResponse = new WalletInfoReponse(wCreatedUpdated, Constants.WALLET_UPDATED, "The wallet has been updated");
+			
+			log.info("Se actualiza wallet con id:" + wInfoResponse.getWallet().getIdWallet());
 		}
 
 		return new ResponseEntity<>(wInfoResponse, HttpStatus.CREATED);
@@ -83,10 +88,14 @@ public class WalletController {
 			
 			wInfoResponse = new WalletInfoReponse(new Wallet(), Constants.WALLET_NOT_EXIST, "The wallet with id " + id + " not exist");	
 			status = HttpStatus.NOT_FOUND;
+			
+			log.info("Wallet con id: " + wInfoResponse.getWallet().getIdWallet() + "no existe");
 		} else {
 			
 			wInfoResponse = new WalletInfoReponse(wConsult, Constants.WALLET_FOUND, "The wallet with id " + id + " found");	
 			status = HttpStatus.OK;
+			
+			log.info("Consulta wallet con id: " + wInfoResponse.getWallet().getIdWallet());
 		}
 
 		return new ResponseEntity<>(wInfoResponse,status);
@@ -103,14 +112,20 @@ public class WalletController {
 				
 					paymentService.charge(wMoveMoney.getAmount());
 					Wallet upWallet = walletService.chargeWallet(wConsult, wMoveMoney.getAmount());
-					wInfoResponse = new WalletInfoReponse(upWallet, Constants.PAYMENT_CHARGED, wMoveMoney.getAmount() + " CHARGED")	;		
+					wInfoResponse = new WalletInfoReponse(upWallet, Constants.PAYMENT_CHARGED, wMoveMoney.getAmount() + " CHARGED")	;	
+					
+					log.info("Se han recargado "+ wMoveMoney.getAmount() + "€ en el monedero con id " + wInfoResponse.getWallet().getIdWallet());
 			}else {
 				
 				wInfoResponse = new WalletInfoReponse(new Wallet(), Constants.ERROR_WALLET_NOT_FOUND, "There is no wallet with id: "+ id);	
+				
+				log.info("El wallet con id " + wInfoResponse.getWallet().getIdWallet() + " no existe");
 			}
 		} catch (PaymentServiceException e) {
 			
 			wInfoResponse = new WalletInfoReponse(new Wallet(), Constants.ERROR_MIN_PAYMENT, "Minimum payment 10€");
+			
+			log.info("Se ha intentado cargar menos de 10€ en el monedero " + wInfoResponse.getWallet().getIdWallet());
 			return new ResponseEntity<>(wInfoResponse, HttpStatus.NOT_ACCEPTABLE);
 		}
 		
@@ -127,9 +142,13 @@ public class WalletController {
 				
 				Wallet upWallet = walletService.refundWallet(wConsult, wMoveMoney.getAmount());
 				wInfoResponse = new WalletInfoReponse(upWallet, Constants.PAYMENT_REFUNDED, wMoveMoney.getAmount() + " REFUNDED");
+				
+				log.info("Se ha realizado una devolucion en el monedero " + wInfoResponse.getWallet().getIdWallet());
 			}else {
 
-				wInfoResponse = new WalletInfoReponse(new Wallet(), Constants.ERROR_WALLET_NOT_FOUND, "There is no wallet with id: "+ id);	
+				wInfoResponse = new WalletInfoReponse(new Wallet(), Constants.ERROR_WALLET_NOT_FOUND, "There is no wallet with id: "+ id);
+				
+				log.info("El wallet con id " + wInfoResponse.getWallet().getIdWallet() + " no existe");
 			}
 
 		return new ResponseEntity<>(wInfoResponse, HttpStatus.ACCEPTED);
@@ -146,13 +165,19 @@ public class WalletController {
 					
 					Wallet upWallet = walletService.paymentWallet(wConsult, wMoveMoney.getAmount());
 					wInfoResponse = new WalletInfoReponse(upWallet, Constants.PAYMENTED, wMoveMoney.getAmount() + " PAYMENTED");	
+					
+					log.info("Se realiza pago de " + wMoveMoney.getAmount() + "€ con el monedero: " + wInfoResponse.getWallet().getIdWallet());
 				}else {
 					
-					wInfoResponse = new WalletInfoReponse(wConsult, Constants.ERROR_NO_CREDIT, "Impossible charge, this wallet dont have credit");	
+					wInfoResponse = new WalletInfoReponse(wConsult, Constants.ERROR_NO_CREDIT, "Impossible charge, this wallet dont have credit");
+					
+					log.info("El wallet con id " + wInfoResponse.getWallet().getIdWallet() + " no tiene credito para pagar " +  wMoveMoney.getAmount() + "€");
 				}
 			}else {
 				
 				wInfoResponse = new WalletInfoReponse(new Wallet(), Constants.ERROR_WALLET_NOT_FOUND, "There is no wallet with id: "+ id);	
+				
+				log.info("El wallet con id " + wInfoResponse.getWallet().getIdWallet() + " no existe");
 			}
 			
 		return new ResponseEntity<>(wInfoResponse, HttpStatus.ACCEPTED);
