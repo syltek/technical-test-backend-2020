@@ -1,18 +1,21 @@
 package com.playtomic.tests.wallet.service.impl;
 
 
-import com.playtomic.tests.wallet.service.PaymentServiceException;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
+
+import org.junit.jupiter.api.Test;
+
+import com.playtomic.tests.wallet.service.PaymentServiceException;
 
 public class ThirdPartyPaymentServiceTest {
 
     ThirdPartyPaymentService s = new ThirdPartyPaymentService();
 
-    @Test(expected = PaymentServiceException.class)
+    @Test
     public void test_exception() throws PaymentServiceException {
-        s.charge(new BigDecimal(5));
+        assertThrows(PaymentServiceException.class, () -> {s.charge(new BigDecimal(5));});
     }
 
     @Test
