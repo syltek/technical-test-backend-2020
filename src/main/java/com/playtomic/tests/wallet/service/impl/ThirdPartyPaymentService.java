@@ -1,11 +1,11 @@
 package com.playtomic.tests.wallet.service.impl;
 
-import com.playtomic.tests.wallet.service.PaymentServiceException;
-import com.playtomic.tests.wallet.service.PaymentService;
+import java.math.BigDecimal;
 
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import com.playtomic.tests.wallet.exception.PaymentServiceException;
+import com.playtomic.tests.wallet.service.PaymentService;
 
 
 /**
