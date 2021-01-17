@@ -1,12 +1,18 @@
 spring.profiles.active: develop
 server:
   port: 8090
+spring:
+  h2:
+    console:
+      enabled: true
+
 ---
 spring:
   profiles: develop
   jpa:
     show_sql: false
     database: H2
+
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE
     initialize: false
