@@ -2,17 +2,24 @@ package com.playtomic.tests.wallet.service.impl;
 
 
 import com.playtomic.tests.wallet.service.PaymentServiceException;
-import org.junit.Test;
-
 import java.math.BigDecimal;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles(profiles = "test")
 public class ThirdPartyPaymentServiceTest {
 
     ThirdPartyPaymentService s = new ThirdPartyPaymentService();
 
-    @Test(expected = PaymentServiceException.class)
+    @Test
     public void test_exception() throws PaymentServiceException {
-        s.charge(new BigDecimal(5));
+        Assertions.assertThrows(PaymentServiceException.class, () -> s.charge(new BigDecimal(5)));
     }
 
     @Test
