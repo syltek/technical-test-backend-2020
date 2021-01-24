@@ -25,7 +25,7 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    @GetMapping(path = "/{walletId}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{walletId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Async api for getting wallet info",
             summary = "Get wallet info")
     private CompletableFuture<ResponseEntity> getInfo(@NotNull @PathVariable final Long walletId) {
