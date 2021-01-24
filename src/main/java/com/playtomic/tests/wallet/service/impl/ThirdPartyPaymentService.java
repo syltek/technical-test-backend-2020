@@ -1,8 +1,12 @@
 package com.playtomic.tests.wallet.service.impl;
 
+import com.playtomic.tests.wallet.model.enums.PaymentChannels;
 import com.playtomic.tests.wallet.service.PaymentServiceException;
 import com.playtomic.tests.wallet.service.PaymentService;
 
+import com.playtomic.tests.wallet.service.PaymentServiceProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,12 +19,34 @@ import java.math.BigDecimal;
  */
 @Service
 public class ThirdPartyPaymentService implements PaymentService {
+    private Logger log = LoggerFactory.getLogger(ThirdPartyPaymentService.class);
+
     private BigDecimal threshold = new BigDecimal(10);
 
+    private PaymentServiceProvider paymentServiceProvider;
+
+    public ThirdPartyPaymentService(PaymentServiceProvider paymentServiceProvider) {
+        this.paymentServiceProvider = paymentServiceProvider;
+    }
+
     @Override
-    public void charge(BigDecimal amount) throws PaymentServiceException {
+    public void charge(final BigDecimal amount, final String paymentChannel) throws PaymentServiceException {
         if (amount.compareTo(threshold) < 0) {
-            throw new PaymentServiceException();
+            throw new PaymentServiceException("Payment channel not acceptable");
         }
+
+        PaymentChannels paymentChannels = paymentServiceProvider.checkAndValidatePaymentChannel(paymentChannel);
+        retrieveBalanceInfoFromThirdParty(paymentChannels);
+    }
+
+    private void retrieveBalanceInfoFromThirdParty (PaymentChannels channel) {
+        log.info("Provided channel -> {}", channel.name());
+
+        try {
+            Thread.sleep(1000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 }

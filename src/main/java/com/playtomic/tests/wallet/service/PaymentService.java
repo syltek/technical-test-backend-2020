@@ -3,5 +3,5 @@ package com.playtomic.tests.wallet.service;
 import java.math.BigDecimal;
 
 public interface PaymentService {
-    void charge(BigDecimal amount) throws PaymentServiceException;
+    void charge(final BigDecimal amount, final String paymentChannel) throws PaymentServiceException;
 }

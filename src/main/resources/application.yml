@@ -1,6 +1,22 @@
 spring.profiles.active: develop
 server:
   port: 8090
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+
+springdoc:
+  api-docs:
+    path: /docs
+  swagger-ui:
+    path: /docs-ui
+
 ---
 spring:
   profiles: develop
