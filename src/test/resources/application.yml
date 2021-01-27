@@ -1,0 +1,14 @@
+spring.profiles.active: test
+server:
+  port: 8090
+---
+spring:
+  jpa:
+    show_sql: true
+    database: H2
+    open-in-view: false
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=TRUE;IGNORECASE=TRUE
+  config:
+    activate:
+      on-profile: test

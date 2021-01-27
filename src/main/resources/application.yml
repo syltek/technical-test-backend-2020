@@ -3,19 +3,13 @@ server:
   port: 8090
 ---
 spring:
-  profiles: develop
   jpa:
     show_sql: false
     database: H2
+    open-in-view: false
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE
-    initialize: false
----
-spring:
-  profiles: test
-  jpa:
-    show_sql: false
-    database: H2
-  datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE
-    initialize: false
+  h2.console.enabled: true
+  config:
+    activate:
+      on-profile: develop
