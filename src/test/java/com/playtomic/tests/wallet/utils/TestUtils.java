@@ -12,6 +12,7 @@ import com.playtomic.tests.wallet.repository.WalletRepository;
 import com.playtomic.tests.wallet.repository.WalletTransactionRepository;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * @author : Andrey Kolchev
@@ -60,13 +61,14 @@ public class TestUtils {
                 TransactionType.DEBIT,
                 Currency.EUR,
                 PaymentPlatform.STRIPE,
-                wallet
+                wallet,
+                new Timestamp(System.currentTimeMillis())
         );
         walletTransactionRepository.save(transaction);
     }
 
     public static void destroyData(WalletRepository walletRepository,
-                                WalletTransactionRepository walletTransactionRepository) {
+                                   WalletTransactionRepository walletTransactionRepository) {
         System.out.println("###################Tear Down Data###############################");
         walletTransactionRepository.deleteAll();
         walletRepository.deleteAll();

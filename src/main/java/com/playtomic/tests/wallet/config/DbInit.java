@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /*init some data for debug*/
@@ -42,7 +43,8 @@ public class DbInit {
                 TransactionType.DEBIT,
                 Currency.EUR,
                 PaymentPlatform.STRIPE,
-                wallet
+                wallet,
+                new Timestamp(System.currentTimeMillis())
         );
         walletTransactionRepository.save(transaction);
     }

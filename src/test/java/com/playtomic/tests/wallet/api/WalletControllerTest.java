@@ -29,12 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class WalletControllerTest {
 
+    @Autowired
+    ObjectMapper objectMapper;
     @MockBean
     private WalletService walletService;
     @Autowired
     private MockMvc mvc;
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Test
     void getByID() throws Exception {

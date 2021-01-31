@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * @author : Andrey Kolchev
@@ -45,5 +46,8 @@ public class WalletTransactionEntity {
     @ManyToOne
     @JoinColumn(name = "wallet_id", foreignKey = @ForeignKey(name = "fk_wallet"), updatable = false)
     private WalletEntity walletEntity;
+
+    @Column(name = "created")
+    private Timestamp created;
 
 }

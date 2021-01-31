@@ -18,7 +18,8 @@ import org.springframework.test.context.ActiveProfiles;
 import java.math.BigDecimal;
 
 import static com.playtomic.tests.wallet.utils.TestUtils.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author : Andrey Kolchev

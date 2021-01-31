@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import static com.playtomic.tests.wallet.ex.ErrorType.*;
@@ -65,7 +66,8 @@ public class WalletServiceImpl implements WalletService {
                 TransactionType.DEBIT,
                 Currency.EUR,
                 dto.getPaymentPlatform(),
-                wallet
+                wallet,
+                new Timestamp(System.currentTimeMillis())
         );
         walletTransactionRepository.save(transaction);
     }
@@ -85,7 +87,8 @@ public class WalletServiceImpl implements WalletService {
                 TransactionType.CREDIT,
                 Currency.EUR,
                 null,
-                wallet
+                wallet,
+                new Timestamp(System.currentTimeMillis())
         );
         walletTransactionRepository.save(transaction);
     }
@@ -107,7 +110,7 @@ public class WalletServiceImpl implements WalletService {
 
     private String validateAndGetWalletId(final String id) {
         try {
-             return UUID.fromString(id).toString();
+            return UUID.fromString(id).toString();
         } catch (Exception e) {
             throw new ErrorException(INVALID_UUID, id);
         }
