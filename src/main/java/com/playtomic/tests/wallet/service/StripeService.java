@@ -1,20 +1,15 @@
 package com.playtomic.tests.wallet.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.net.URL;
-import java.util.Map;
 
 
 /**
@@ -37,7 +32,7 @@ public class StripeService {
 
     public StripeService(@Value("stripe.simulator.charges-uri") @NonNull URI chargesUri,
                          @Value("stripe.simulator.refunds-uri") @NonNull URI refundsUri,
-                         @NotNull RestTemplateBuilder restTemplateBuilder) {
+                         @NonNull RestTemplateBuilder restTemplateBuilder) {
         this.chargesUri = chargesUri;
         this.refundsUri = refundsUri;
         this.restTemplate =
